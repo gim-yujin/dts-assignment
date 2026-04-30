@@ -1,3 +1,17 @@
 spring:
   application:
     name: dts-assignment
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/dts_assignment}
+    username: ${DB_USERNAME:dts_user}
+    password: ${DB_PASSWORD:dts_password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  thymeleaf:
+    cache: false
