@@ -35,8 +35,8 @@
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
-        <!-- users → login_history (1:N) -->
-        <mxCell id="edge-users-login-history" value="1:N" style="endArrow=ERmany;startArrow=ERone;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" edge="1" source="users-table" target="login-history-table" parent="1">
+        <!-- users → login_history (0..1:N) -->
+        <mxCell id="edge-users-login-history" value="0..1:N" style="endArrow=ERmany;startArrow=ERzeroToOne;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" edge="1" source="users-table" target="login-history-table" parent="1">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
