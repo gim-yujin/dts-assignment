@@ -24,7 +24,6 @@
                             환영합니다, <strong sec:authentication="name"></strong>님!
                         </p>
                         <form th:action="@{/logout}" method="post">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                             <button type="submit" class="btn btn-outline-secondary w-100">로그아웃</button>
                         </form>
                     </div>
