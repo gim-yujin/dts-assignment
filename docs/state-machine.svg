@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <marker id="arrow-success" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arrow-fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="1000" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="600" y="44" text-anchor="middle" font-size="24" font-weight="700" fill="#0f172a">
+    Login / Logout State Machine
+  </text>
+  <text x="600" y="70" text-anchor="middle" font-size="13" fill="#64748b">
+    Spring Security 기반 인증 흐름 — DTS Assignment
+  </text>
+
+  <!-- Initial state -->
+  <circle cx="600" cy="120" r="10" fill="#0f172a"/>
+
+  <!-- Anonymous state -->
+  <g filter="url(#shadow)">
+    <rect x="490" y="170" width="220" height="80" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+  </g>
+  <text x="600" y="200" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">Anonymous</text>
+  <text x="600" y="220" text-anchor="middle" font-size="12" fill="#475569">미인증 상태 (세션 없음)</text>
+  <text x="600" y="237" text-anchor="middle" font-size="11" fill="#64748b" font-style="italic">SecurityContext: empty</text>
+
+  <!-- LoginForm state -->
+  <g filter="url(#shadow)">
+    <rect x="490" y="340" width="220" height="100" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  </g>
+  <text x="600" y="370" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">LoginForm</text>
+  <text x="600" y="390" text-anchor="middle" font-size="12" fill="#1e40af">GET /login → login.html</text>
+  <text x="600" y="408" text-anchor="middle" font-size="11" fill="#3b82f6">아이디 / 비밀번호 입력 화면</text>
+  <text x="600" y="425" text-anchor="middle" font-size="11" fill="#64748b" font-style="italic">?error / ?logout 알림 표시</text>
+
+  <!-- Authenticating state (decision diamond-ish, but use rounded rect) -->
+  <g filter="url(#shadow)">
+    <rect x="460" y="540" width="280" height="90" rx="14" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  </g>
+  <text x="600" y="572" text-anchor="middle" font-size="16" font-weight="700" fill="#78350f">Authenticating</text>
+  <text x="600" y="592" text-anchor="middle" font-size="12" fill="#92400e">POST /login (UsernamePasswordAuthFilter)</text>
+  <text x="600" y="610" text-anchor="middle" font-size="11" fill="#a16207" font-style="italic">UserDetailsServiceImpl + BCryptPasswordEncoder</text>
+
+  <!-- Authenticated state (right) -->
+  <g filter="url(#shadow)">
+    <rect x="850" y="540" width="260" height="100" rx="14" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  </g>
+  <text x="980" y="570" text-anchor="middle" font-size="16" font-weight="700" fill="#14532d">Authenticated</text>
+  <text x="980" y="590" text-anchor="middle" font-size="12" fill="#166534">GET / → home.html</text>
+  <text x="980" y="608" text-anchor="middle" font-size="11" fill="#15803d">SecurityContext: authenticated</text>
+  <text x="980" y="625" text-anchor="middle" font-size="11" fill="#64748b" font-style="italic">JSESSIONID 발급</text>
+
+  <!-- LoggingOut state -->
+  <g filter="url(#shadow)">
+    <rect x="850" y="730" width="260" height="80" rx="14" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  </g>
+  <text x="980" y="760" text-anchor="middle" font-size="16" font-weight="700" fill="#7f1d1d">LoggingOut</text>
+  <text x="980" y="780" text-anchor="middle" font-size="12" fill="#991b1b">POST /logout (LogoutFilter)</text>
+  <text x="980" y="798" text-anchor="middle" font-size="11" fill="#b91c1c" font-style="italic">세션 무효화 · SecurityContext clear</text>
+
+  <!-- LoggedOut state -->
+  <g filter="url(#shadow)">
+    <rect x="490" y="730" width="220" height="100" rx="14" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  </g>
+  <text x="600" y="760" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">LoggedOut</text>
+  <text x="600" y="780" text-anchor="middle" font-size="12" fill="#334155">GET /logout-success</text>
+  <text x="600" y="798" text-anchor="middle" font-size="11" fill="#64748b">로그아웃 완료 화면</text>
+  <text x="600" y="815" text-anchor="middle" font-size="11" fill="#64748b" font-style="italic">[로그인] 버튼 노출</text>
+
+  <!-- Final state (optional) -->
+  <circle cx="600" cy="900" r="12" fill="none" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="600" cy="900" r="7" fill="#0f172a"/>
+
+  <!-- ===== Transitions ===== -->
+
+  <!-- initial → Anonymous -->
+  <line x1="600" y1="130" x2="600" y2="168" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Anonymous → LoginForm -->
+  <line x1="600" y1="250" x2="600" y2="338" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="608" y="280" width="190" height="36" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="703" y="296" text-anchor="middle" font-size="11" fill="#0f172a">GET /login</text>
+  <text x="703" y="310" text-anchor="middle" font-size="10" fill="#64748b">또는 보호된 URL → 리다이렉트</text>
+
+  <!-- LoginForm → Authenticating -->
+  <line x1="600" y1="440" x2="600" y2="538" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="608" y="470" width="240" height="38" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="728" y="486" text-anchor="middle" font-size="11" fill="#0f172a">POST /login</text>
+  <text x="728" y="500" text-anchor="middle" font-size="10" fill="#64748b">{ username, password } (CSRF token)</text>
+
+  <!-- Authenticating → Authenticated (success) -->
+  <path d="M 740 580 Q 800 580 850 580" fill="none" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrow-success)"/>
+  <rect x="745" y="490" width="220" height="60" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="855" y="508" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">[ 인증 성공 ]</text>
+  <text x="855" y="524" text-anchor="middle" font-size="10" fill="#166534">LoginSuccessHandler</text>
+  <text x="855" y="538" text-anchor="middle" font-size="10" fill="#166534">login_history INSERT (success=true)</text>
+  <text x="855" y="551" text-anchor="middle" font-size="10" fill="#166534">→ redirect /</text>
+
+  <!-- Authenticating → LoginForm (failure) -->
+  <path d="M 460 580 Q 380 580 380 480 Q 380 390 488 390" fill="none" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-fail)"/>
+  <rect x="200" y="490" width="225" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="312" y="508" text-anchor="middle" font-size="11" font-weight="700" fill="#991b1b">[ 인증 실패 ]</text>
+  <text x="312" y="524" text-anchor="middle" font-size="10" fill="#b91c1c">LoginFailureHandler</text>
+  <text x="312" y="538" text-anchor="middle" font-size="10" fill="#b91c1c">login_history INSERT (success=false)</text>
+  <text x="312" y="551" text-anchor="middle" font-size="10" fill="#b91c1c">→ redirect /login?error</text>
+
+  <!-- Authenticated → LoggingOut -->
+  <line x1="980" y1="640" x2="980" y2="728" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-fail)"/>
+  <rect x="1000" y="660" width="180" height="38" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="1090" y="676" text-anchor="middle" font-size="11" font-weight="700" fill="#7f1d1d">POST /logout</text>
+  <text x="1090" y="690" text-anchor="middle" font-size="10" fill="#b91c1c">홈 화면의 [로그아웃]</text>
+
+  <!-- LoggingOut → LoggedOut -->
+  <line x1="848" y1="780" x2="712" y2="780" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="730" y="700" width="170" height="58" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="815" y="718" text-anchor="middle" font-size="11" font-weight="700" fill="#0f172a">세션 종료</text>
+  <text x="815" y="732" text-anchor="middle" font-size="10" fill="#475569">SecurityContextLogoutHandler</text>
+  <text x="815" y="746" text-anchor="middle" font-size="10" fill="#475569">→ redirect /logout-success</text>
+
+  <!-- LoggedOut → LoginForm (click login) -->
+  <path d="M 488 760 Q 360 760 360 530 Q 360 390 488 390" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-blue)"/>
+  <rect x="195" y="380" width="155" height="38" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="272" y="396" text-anchor="middle" font-size="11" font-weight="700" fill="#1e3a8a">[로그인] 버튼</text>
+  <text x="272" y="410" text-anchor="middle" font-size="10" fill="#1e40af">GET /login</text>
+
+  <!-- LoggedOut → final -->
+  <line x1="600" y1="830" x2="600" y2="886" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Self-loop guards: Authenticated state — GET /login or /logout-success → redirect / -->
+  <path d="M 1110 560 Q 1180 540 1170 600 Q 1160 640 1110 620" fill="none" stroke="#15803d" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-success)"/>
+  <text x="1182" y="585" font-size="10" fill="#166534" text-anchor="start">
+    <tspan x="1175" dy="0">AuthController</tspan>
+    <tspan x="1175" dy="12">guard:</tspan>
+    <tspan x="1175" dy="12">/login &amp;</tspan>
+    <tspan x="1175" dy="12">/logout-success</tspan>
+    <tspan x="1175" dy="12">→ redirect /</tspan>
+  </text>
+
+  <!-- ===== Legend ===== -->
+  <g transform="translate(40, 880)">
+    <rect width="360" height="100" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="14" y="22" font-size="13" font-weight="700" fill="#0f172a">Legend</text>
+
+    <circle cx="24" cy="42" r="6" fill="#0f172a"/>
+    <text x="40" y="46" font-size="11" fill="#334155">Initial state</text>
+
+    <circle cx="130" cy="42" r="8" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+    <circle cx="130" cy="42" r="4" fill="#0f172a"/>
+    <text x="146" y="46" font-size="11" fill="#334155">Final state</text>
+
+    <line x1="14" y1="68" x2="44" y2="68" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrow-success)"/>
+    <text x="50" y="72" font-size="11" fill="#334155">성공 전이</text>
+
+    <line x1="120" y1="68" x2="150" y2="68" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-fail)"/>
+    <text x="156" y="72" font-size="11" fill="#334155">실패 / 로그아웃</text>
+
+    <line x1="14" y1="88" x2="44" y2="88" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-blue)"/>
+    <text x="50" y="92" font-size="11" fill="#334155">사용자 네비게이션</text>
+
+    <line x1="180" y1="88" x2="210" y2="88" stroke="#15803d" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-success)"/>
+    <text x="216" y="92" font-size="11" fill="#334155">컨트롤러 가드</text>
+  </g>
+
+  <!-- ===== Source notes ===== -->
+  <g transform="translate(820, 880)">
+    <rect width="340" height="100" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="14" y="22" font-size="13" font-weight="700" fill="#0f172a">Source mapping</text>
+    <text x="14" y="42" font-size="11" fill="#334155">• SecurityConfig — formLogin / logout 체인</text>
+    <text x="14" y="58" font-size="11" fill="#334155">• AuthController — /login, /, /logout-success</text>
+    <text x="14" y="74" font-size="11" fill="#334155">• LoginSuccessHandler / LoginFailureHandler</text>
+    <text x="14" y="90" font-size="11" fill="#334155">• LoginHistoryRepository — 시도 이력 적재</text>
+  </g>
+</svg>
