@@ -11,6 +11,11 @@ public class AuthController {
         return "login";
     }
 
+    @GetMapping("/")
+    public String homePage() {
+        return "home";
+    }
+
     @GetMapping("/logout-success")
     public String logoutSuccessPage() {
         return "logout-success";
