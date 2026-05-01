@@ -1,5 +1,7 @@
 package com.github.dts_assignment.auth.controller;
 
+import com.github.dts_assignment.auth.handler.LoginFailureHandler;
+import com.github.dts_assignment.auth.handler.LoginSuccessHandler;
 import com.github.dts_assignment.config.SecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,12 @@ class AuthControllerTest {
 
     @MockitoBean
     private UserDetailsService userDetailsService;
+
+    @MockitoBean
+    private LoginSuccessHandler loginSuccessHandler;
+
+    @MockitoBean
+    private LoginFailureHandler loginFailureHandler;
 
     @Test
     void loginPage_returns200AndContainsForm() throws Exception {
