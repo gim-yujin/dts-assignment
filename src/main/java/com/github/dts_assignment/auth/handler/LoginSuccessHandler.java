@@ -26,12 +26,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username).orElse(null);
 
-        loginHistoryRepository.save(LoginHistory.builder()
-                .user(user)
-                .username(username)
-                .success(true)
-                .ipAddress(request.getRemoteAddr())
-                .build());
+        loginHistoryRepository.save(LoginHistory.success(user, username, request.getRemoteAddr()));
 
         response.sendRedirect(request.getContextPath() + "/");
     }

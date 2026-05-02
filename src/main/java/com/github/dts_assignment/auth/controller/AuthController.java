@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AuthController {
 
+    private static final String REDIRECT_HOME = "redirect:/";
+
     @GetMapping("/login")
     public String loginPage(Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            return "redirect:/";
-        }
-        return "login";
+        return isAuthenticated(authentication) ? REDIRECT_HOME : "login";
     }
 
     @GetMapping("/")
@@ -22,9 +21,10 @@ public class AuthController {
 
     @GetMapping("/logout-success")
     public String logoutSuccessPage(Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            return "redirect:/";
-        }
-        return "logout-success";
+        return isAuthenticated(authentication) ? REDIRECT_HOME : "logout-success";
+    }
+
+    private boolean isAuthenticated(Authentication authentication) {
+        return authentication != null && authentication.isAuthenticated();
     }
 }

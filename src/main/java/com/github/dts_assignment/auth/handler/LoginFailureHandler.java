@@ -20,14 +20,10 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {
+        // Authentication 객체가 없는 실패 흐름이므로 username 은 form parameter 에서 직접 얻는다.
         String username = request.getParameter("username");
 
-        loginHistoryRepository.save(LoginHistory.builder()
-                .user(null)
-                .username(username != null ? username : "")
-                .success(false)
-                .ipAddress(request.getRemoteAddr())
-                .build());
+        loginHistoryRepository.save(LoginHistory.failure(username, request.getRemoteAddr()));
 
         response.sendRedirect(request.getContextPath() + "/login?error");
     }

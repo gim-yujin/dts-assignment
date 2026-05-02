@@ -22,11 +22,7 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        // created_at is insertable=false, so use JDBC to bypass Hibernate mapping
-        jdbcTemplate.execute("""
-                INSERT INTO users (username, password, email, created_at)
-                VALUES ('alice', '$2a$10$hashedpassword', 'alice@example.com', CURRENT_TIMESTAMP)
-                """);
+        insertUser("alice", "$2a$10$hashedpassword", "alice@example.com");
     }
 
     @Test
@@ -48,14 +44,18 @@ class UserRepositoryTest {
 
     @Test
     void save_assignsId() {
-        jdbcTemplate.execute("""
-                INSERT INTO users (username, password, email, created_at)
-                VALUES ('bob', '$2a$10$anotherhashedpw', 'bob@example.com', CURRENT_TIMESTAMP)
-                """);
+        insertUser("bob", "$2a$10$anotherhashedpw", "bob@example.com");
 
         Optional<User> result = userRepository.findByUsername("bob");
 
         assertThat(result).isPresent();
         assertThat(result.get().getId()).isNotNull().isPositive();
+    }
+
+    // created_at 은 insertable=false 라 Hibernate 매핑을 우회하기 위해 JDBC 로 직접 삽입한다.
+    private void insertUser(String username, String password, String email) {
+        jdbcTemplate.update(
+                "INSERT INTO users (username, password, email, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)",
+                username, password, email);
     }
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +32,7 @@ public class LoginHistory {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     @Column(nullable = false, length = 50)
@@ -46,4 +47,22 @@ public class LoginHistory {
     @CreationTimestamp
     @Column(name = "attempted_at", nullable = false, updatable = false)
     private LocalDateTime attemptedAt;
+
+    public static LoginHistory success(User user, String username, String ipAddress) {
+        return LoginHistory.builder()
+                .user(user)
+                .username(username)
+                .success(true)
+                .ipAddress(ipAddress)
+                .build();
+    }
+
+    public static LoginHistory failure(String username, String ipAddress) {
+        return LoginHistory.builder()
+                .user(null)
+                .username(Objects.requireNonNullElse(username, ""))
+                .success(false)
+                .ipAddress(ipAddress)
+                .build();
+    }
 }
